@@ -15,7 +15,7 @@
       }
 
 	.form-signin {
-        max-width: 589px;
+        max-width: 403px;
         padding: 49px 29px 29px;
         margin: 0 auto 20px;
         background-color: #fff;
@@ -29,37 +29,75 @@
       }
 	#name {
 		position: relative;
-		top: -516px;
-		left: 120px;
-		font-size: 28px;
+		top: -338px;
+		left: 80px;
+		font-size: 20px;
 		font-weight: 800;
-		height: 40px;
-		width: 160px;
-		
+		height: 28px;
+		width: 100px;
+		z-index: 15;
 	}
 	#number {
 		position: relative;
-		top: -462px;
-		left: -31px;
-		font-size: 28px;
+		top: -303px;
+		left: 10px;
+		font-size: 20px;
 		font-weight: 800;
-		height: 40px;
-		width: 150px;
-		
+		height: 28px;
+		width: 70px;
+		z-index: 15;
 	}
 	#enddate {
 		position: relative;
-		top: -407px;
-		left: -185px;
-		font-size: 28px;
+		top: -267px;
+		left: -90px;
+		font-size: 20px;
 		font-weight: 800;
-		height: 40px;
-		width: 150px;
+		height: 28px;
+		width: 110px;
+		z-index: 15;
 	}
 	.photo {
 		position: relative;
-		top: -520px;
-		left: 370px;
+		top: -345px;
+		left: 225px;
+		z-index: 10;
+	}
+	#file-input {
+		display: block;  
+		position: absolute;  
+		top: 0;  
+		left: 0;
+		width: 82px;  
+		height: 34px; 
+		font-size: 100px; /* 增大不同浏览器的可点击区域 */  
+		opacity: 0; /* 实现的关键点 */  
+		filter:alpha(opacity=0);/* 兼容IE */  
+	}
+	.main {
+		z-index: 15;
+		max-height: 515px;
+	}
+	#main {
+		z-index: 5;
+		position: relative;
+	}
+	#result {
+		position: relative;
+		z-index: 1;
+		top: -395px;
+		left: 216px;
+		width: 99px;  
+		height: 134px;
+	}
+	canvas {
+		position: absolute;
+		margin: auto;
+		z-index: 2;
+　		vertical-align:middle;
+	}
+	a#linkphoto {
+		z-index: 3;
 	}
 
 	</style>
@@ -70,18 +108,26 @@
 	<div class="container">
 			
 		<form action="" accept-charset="utf-8" class="form-signin">
+			<INPUT TYPE="button" value="整頁列印" onclick="print()">
+				<br><hr><br>
+			<div class="main">
+				<img id="main" src="Untitled.png" alt="">
+				
+				<input id="name" type="text" style="">
+				<input id="number" type="text" style="">
+				<input id="enddate" type="text" style="">
+				
+				<div class="photo">
+					<button id="upload" class="btn btn-primary">上傳照片<input type="file" id="file-input" /></button>
+				</div>
+				<div id="result" class="result">
+			   		<p>This demo works only in browsers with support for the <a href="https://developer.mozilla.org/en/DOM/window.URL">URL</a> or <a href="https://developer.mozilla.org/en/DOM/FileReader">FileReader</a> API.</p>
+				</div>
 
-			<img id="main" src="Untitled.png" alt="">
-			<input id="name" type="text" style="">
-			<input id="number" type="text" style="">
-			<input id="enddate" type="text" style="">
-		
-			<button id="upload" class="photo btn btn-primary">上傳照片</button>
 
-			<input type="file" id="file-input" />
-			<div id="result" class="result">
-			    <p>This demo works only in browsers with support for the <a href="https://developer.mozilla.org/en/DOM/window.URL">URL</a> or <a href="https://developer.mozilla.org/en/DOM/FileReader">FileReader</a> API.</p>
 			</div>
+		
+			
 
 		</form>
 		
@@ -99,13 +145,15 @@ replaceResults = function (img) {
     if (!(img.src || img instanceof HTMLCanvasElement)) {
         content = $('<span>Loading image file failed</span>');
     } else {
-        content = $('<a target="_blank">').append(img)
+        content = $('<a target="_blank" id="linkphoto">').append(img)
             .attr('download', currentFile.name)
-            .attr('href', img.src || img.toDataURL());
+            .attr('href', "XXXXXxxxxxxxxxxxxxxxxxxxxsssssssssssssxxxxxxxxxxssssssssXXX");
+            // .attr('href', img.src || img.toDataURL());
     }
     result.children().replaceWith(content);
     if (img.getContext) {
         // actionsNode.show();
+        $("#upload").hide();
     }
 };
 
@@ -137,21 +185,22 @@ loadphoto = function (e) {
     loadImage.parseMetaData(file, function (data) {
         displayImage(file, options);
     });
+    $(".main").css("z-index",999);
 };
 
 $("#file-input").on("change", loadphoto);
-$("#upload").on("change", loadphoto);
+// $("#upload").on("change", loadphoto);
 
 $(document).ready( function() {
 	var result = $('#result');
 	$('#upload').click(function(){
-		$("#file-input").click();
+		//$("#file-input").click();
 		console.log("CD");
 	});
 
 $("#file-input").on("change", loadphoto);
 $("#upload").on("change", loadphoto);
-	
+
   	// Hide URL/FileReader API requirement message in capable browsers:
 	if (window.createObjectURL || window.URL || window.webkitURL || window.FileReader) {
 	    result.children().hide();

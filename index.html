@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<link rel="stylesheet" href="css/bootstrap.css">
+
+	<style type="text/css">
+	
+	body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+      }
+
+	.form-signin {
+        max-width: 589px;
+        padding: 49px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+	#name {
+		position: relative;
+		top: -516px;
+		left: 120px;
+		font-size: 28px;
+		font-weight: 800;
+		height: 40px;
+		width: 160px;
+		
+	}
+	#number {
+		position: relative;
+		top: -462px;
+		left: -31px;
+		font-size: 28px;
+		font-weight: 800;
+		height: 40px;
+		width: 150px;
+		
+	}
+	#enddate {
+		position: relative;
+		top: -407px;
+		left: -185px;
+		font-size: 28px;
+		font-weight: 800;
+		height: 40px;
+		width: 150px;
+	}
+	.photo {
+		position: relative;
+		top: -520px;
+		left: 370px;
+	}
+
+	</style>
+
+</head>
+<body>
+	
+	<div class="container">
+			
+		<form action="" accept-charset="utf-8" class="form-signin">
+
+			<img id="main" src="Untitled.png" alt="">
+			<input id="name" type="text" style="">
+			<input id="number" type="text" style="">
+			<input id="enddate" type="text" style="">
+		
+			<button id="upload" class="photo btn btn-primary">上傳照片</button>
+
+			<input type="file" id="file-input" />
+			<div id="result" class="result">
+			    <p>This demo works only in browsers with support for the <a href="https://developer.mozilla.org/en/DOM/window.URL">URL</a> or <a href="https://developer.mozilla.org/en/DOM/FileReader">FileReader</a> API.</p>
+			</div>
+
+		</form>
+		
+	</div>
+	
+	<script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/load-image.min.js"></script>
+	
+<script type="text/javascript">
+
+var result = $('#result');
+replaceResults = function (img) {
+    var content;
+    if (!(img.src || img instanceof HTMLCanvasElement)) {
+        content = $('<span>Loading image file failed</span>');
+    } else {
+        content = $('<a target="_blank">').append(img)
+            .attr('download', currentFile.name)
+            .attr('href', img.src || img.toDataURL());
+    }
+    result.children().replaceWith(content);
+    if (img.getContext) {
+        // actionsNode.show();
+    }
+};
+
+displayImage = function (file, options) {
+    currentFile = file;
+    if (!loadImage(
+            file,
+            replaceResults,
+            options
+        )) {
+        result.children().replaceWith(
+            $('<span>Your browser does not support the URL or FileReader API.</span>')
+        );
+    }
+};
+
+loadphoto = function (e) {
+    e.preventDefault();
+    e = e.originalEvent;
+    var target = e.dataTransfer || e.target,
+        file = target && target.files && target.files[0],
+        options = {
+            maxWidth: result.width(),
+            canvas: true
+        };
+    if (!file) {
+        return;
+    }
+    loadImage.parseMetaData(file, function (data) {
+        displayImage(file, options);
+    });
+};
+
+$("#file-input").on("change", loadphoto);
+$("#upload").on("change", loadphoto);
+
+$(document).ready( function() {
+	var result = $('#result');
+	$('#upload').click(function(){
+		$("#file-input").click();
+		console.log("CD");
+	});
+
+$("#file-input").on("change", loadphoto);
+$("#upload").on("change", loadphoto);
+	
+  	// Hide URL/FileReader API requirement message in capable browsers:
+	if (window.createObjectURL || window.URL || window.webkitURL || window.FileReader) {
+	    result.children().hide();
+	}
+});
+
+var tempstr = "";
+$('input').change(function(){
+	tempstr = $.trim($(this).val());
+	if(tempstr == ''){
+		$(this).css("border", "1px");
+	}else{
+		$(this).css("border", "0px");
+	}
+	console.log(tempstr);
+});
+
+</script>
+
+
+</body>
+</html>
